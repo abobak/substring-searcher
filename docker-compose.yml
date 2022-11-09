@@ -1,0 +1,8 @@
+version: '2'
+services:
+  substring-app:
+    container_name: substring-app
+    image: substring-app:latest
+    ports:
+      - "8888:8080"
+
