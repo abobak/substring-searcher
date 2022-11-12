@@ -1,5 +1,6 @@
 package com.substringsearcher.app.service;
 
+import com.substringsearcher.app.configuration.ForcedDelayConfiguration;
 import com.substringsearcher.app.dto.InputAndPatternCompareResult;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -11,11 +12,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class InputAndPatternMatchCompareServiceTest {
 
-    InputAndPatternMatchCompareService sut = new InputAndPatternMatchCompareService();
+    InputAndPatternMatchCompareService sut = new InputAndPatternMatchCompareService(new ForcedDelayConfiguration(0));
 
     @ParameterizedTest
     @MethodSource("inputsAndResults")
-    void shouldCalculateBestPatternFit(String input, String pattern, Integer expectedPosition, Integer expectedTypos) {
+    void shouldCalculateBestPatternFit(
+            String input, String pattern, Integer expectedPosition, Integer expectedTypos) throws Exception {
         InputAndPatternCompareResult result = sut.calculatePatternAndInputDistance(input, pattern);
         assertEquals(expectedPosition, result.getPosition());
         assertEquals(expectedTypos, result.getTypos());

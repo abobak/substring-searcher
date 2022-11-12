@@ -2,6 +2,8 @@ package com.substringsearcher.app.controller;
 
 import com.substringsearcher.app.dto.NewTaskPayloadDto;
 import com.substringsearcher.app.dto.TaskDto;
+import com.substringsearcher.app.service.InputAndPatternMatchCompareService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,10 +13,13 @@ import java.util.UUID;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 public class TaskController {
 
+    private final InputAndPatternMatchCompareService inputAndPatternMatchCompareService;
+
     @GetMapping("/tasks")
-    public List<TaskDto> getAllTasks() {
+    public List<TaskDto> getAllTasks() throws InterruptedException {
         return new ArrayList<>();
     }
 
