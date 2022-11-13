@@ -13,6 +13,6 @@ public class TaskStatusDto {
 
     private UUID taskId;
 
-    private Double progress;
+    private String progress;
 
 }
