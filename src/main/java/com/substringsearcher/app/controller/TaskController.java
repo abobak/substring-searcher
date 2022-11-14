@@ -6,6 +6,7 @@ import com.substringsearcher.app.dto.TaskStatusDto;
 import com.substringsearcher.app.model.Task;
 import com.substringsearcher.app.error.BadRequestException;
 import com.substringsearcher.app.mapper.TaskMapper;
+import com.substringsearcher.app.service.InputAndPatternMatchCompareService;
 import com.substringsearcher.app.service.TaskCrudService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,8 @@ public class TaskController {
 
     private final TaskMapper taskMapper;
 
+    private final InputAndPatternMatchCompareService inputAndPatternMatchCompareService;
+
     @GetMapping("/tasks")
     public List<TaskDto> getAllTasks() {
         return taskMapper.dtosFromTaskList(taskCrudService.getTasks());
@@ -35,11 +38,12 @@ public class TaskController {
         return taskCrudService.getTaskStatus(id);
     }
 
-    @PostMapping
-    public UUID createTask(NewTaskPayloadDto newTaskPayloadDto) {
+    @PostMapping("/tasks")
+    public UUID createTask(@RequestBody NewTaskPayloadDto newTaskPayloadDto) throws InterruptedException {
         throwExceptionIfInputOrPatternIsMissing(newTaskPayloadDto);
         throwExceptionIfPatternIsLongerThanInput(newTaskPayloadDto);
         Task newTask = taskCrudService.createNewTask(taskMapper.fromNewTaskDto(newTaskPayloadDto));
+        inputAndPatternMatchCompareService.scheduleCalculation(newTask);
         return newTask.getId();
     }
 

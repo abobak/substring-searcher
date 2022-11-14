@@ -3,11 +3,11 @@ package com.substringsearcher.app.service;
 import com.substringsearcher.app.dto.TaskStatusDto;
 import com.substringsearcher.app.model.Task;
 import com.substringsearcher.app.model.TaskStatus;
+import com.substringsearcher.app.repository.TaskRepository;
 import com.substringsearcher.app.repository.TaskStatusRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,11 +15,13 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class TaskCrudService {
 
-    private final InputAndPatternMatchCompareService inputAndPatternMatchCompareService;
 
     private final TaskStatusRepository taskStatusRepository;
 
+    private final TaskRepository taskRepository;
+
     public Task createNewTask(Task task) {
+        taskRepository.saveTask(task);
         taskStatusRepository.createTaskStatus(task);
         return task;
     }
@@ -30,12 +32,16 @@ public class TaskCrudService {
         return dto;
     }
 
-    public List<Task> getTasks() {
-        return new LinkedList<>();
+    public void updateTaskStatus(UUID taskId, boolean completed, Integer currentStep) {
+        taskStatusRepository.updateTaskStatus(taskId, completed, currentStep);
     }
 
-    static String stepsToPercentageString(Integer curentStep, Integer maxSteps) {
-        Double progress = (Double.valueOf(curentStep) / Double.valueOf(maxSteps)) * 100;
+    public List<Task> getTasks() {
+        return taskRepository.getAllTasks();
+    }
+
+    static String stepsToPercentageString(Integer currentStep, Integer maxSteps) {
+        Double progress = (Double.valueOf(currentStep) / Double.valueOf(maxSteps)) * 100;
         return String.format("%.2f%%", progress);
     }
 }
