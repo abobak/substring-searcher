@@ -3,6 +3,8 @@ package com.substringsearcher.app.service;
 import com.substringsearcher.app.configuration.ForcedDelayConfiguration;
 import com.substringsearcher.app.model.Task;
 import com.substringsearcher.app.model.TaskStatus;
+import com.substringsearcher.app.repository.TaskRepository;
+import com.substringsearcher.app.repository.TaskStatusRepository;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -14,7 +16,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class InputAndPatternMatchCompareServiceTest {
 
-    InputAndPatternMatchCompareService sut = new InputAndPatternMatchCompareService(new ForcedDelayConfiguration(0));
+    InputAndPatternMatchCompareService sut = new InputAndPatternMatchCompareService(
+            new ForcedDelayConfiguration(0), new TaskCrudService(new TaskStatusRepository(), new TaskRepository()));
 
     @ParameterizedTest
     @MethodSource("inputsAndResults")
