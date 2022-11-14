@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @RestController
-public class HealthCheck {
+public class HealthCheckController {
 
     @GetMapping("/health")
     public String checkHealth() {

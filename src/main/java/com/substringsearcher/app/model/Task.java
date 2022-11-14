@@ -1,23 +1,17 @@
-package com.substringsearcher.app.entity;
+package com.substringsearcher.app.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity
 public class Task {
-
-    @Id
-    private Integer index;
 
     private UUID id;
 
